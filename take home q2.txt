@@ -1,0 +1,151 @@
+    #include <bits/stdc++.h>    
+    using namespace std;    
+    string ltrim(const string &);
+    string rtrim(const string &);
+    vector<string> split(const string &);  
+    vector<int> quickSort(vector<int> arr) {  
+    }  
+    int partition(int arr[], int start, int end)
+    {   
+    	int pivot = arr[start];    
+    	int count = 0;
+    	for (int i = start + 1; i <= end; i++) {
+    		if (arr[i] <= pivot)
+    			count++;
+    	}    
+    	// Giving pivot element its correct position
+    	int pivotIndex = start + count;
+    	swap(arr[pivotIndex], arr[start]);
+    
+    	// Sorting left and right parts of the pivot element
+    	int i = start, j = end;    
+    	while (i < pivotIndex && j > pivotIndex) {    
+    		while (arr[i] <= pivot) {
+    			i++;
+    		}    
+    		while (arr[j] > pivot) {
+    			j--;
+    		}    
+    		if (i < pivotIndex && j > pivotIndex) {
+    			swap(arr[i++], arr[j--]);
+    		}
+    	}    
+    	return pivotIndex;
+    }
+    
+    void quickSort(int arr[], int start, int end)
+    {    
+    	// base case
+    	if (start >= end)
+    		return;
+    
+    	// partitioning the array
+    	int p = partition(arr, start, end);
+    
+    	// Sorting the left part
+    	quickSort(arr, start, p - 1);
+    
+    	// Sorting the right part
+    	quickSort(arr, p + 1, end);
+    }
+    
+    int main()
+    {
+        ofstream fout(getenv("OUTPUT_PATH"));
+    
+        string n_temp;
+        getline(cin, n_temp);
+    
+        int n = stoi(ltrim(rtrim(n_temp)));
+    
+        string arr_temp_temp;
+        getline(cin, arr_temp_temp);
+    
+        vector<string> arr_temp = split(rtrim(arr_temp_temp));
+    
+        vector<int> arr(n);
+    
+        for (int i = 0; i < n; i++) {
+            int arr_item = stoi(arr_temp[i]);
+    
+            arr[i] = arr_item;
+        }
+    //////////////////////
+       
+       for(int i=1;i<=n;i++){
+           int temparr[i];
+           for(int j=0;j<i;j++){
+               temparr[j]=arr[j];
+           }
+           quickSort(temparr, 0, i-1);
+           int arrSize = sizeof(temparr)/sizeof(temparr[0]);
+           float median;
+           if(arrSize==1){
+               median=temparr[0]/1.0;
+           }else if(arrSize==2){
+               median=(temparr[0]+temparr[1])/2.0;
+           }else if(arrSize%2==0){
+               median=(temparr[arrSize/2-1]+temparr[arrSize/2])/2.0;
+           }else{
+               median=temparr[arrSize/2]/1.0;
+           }
+           
+           cout<<"[";
+           for(int i=0;i<arrSize-1;i++){
+               cout<<temparr[i]<<", ";
+           }
+           cout<<temparr[arrSize-1]<<"] ";
+           cout<< median<<endl;
+           
+           
+           
+       }
+    
+       return 0;
+    //////////////////////
+        
+    
+        return 0;
+    }
+    
+    string ltrim(const string &str) {
+        string s(str);
+    
+        s.erase(
+            s.begin(),
+            find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
+        );
+    
+        return s;
+    }
+    
+    string rtrim(const string &str) {
+        string s(str);
+    
+        s.erase(
+            find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
+            s.end()
+        );
+    
+        return s;
+    }
+    
+    vector<string> split(const string &str) {
+        vector<string> tokens;
+    
+        string::size_type start = 0;
+        string::size_type end = 0;
+    
+        while ((end = str.find(" ", start)) != string::npos) {
+            tokens.push_back(str.substr(start, end - start));
+    
+            start = end + 1;
+        }
+    
+        tokens.push_back(str.substr(start));
+    
+        return tokens;
+    }
+    
+    
+ 
